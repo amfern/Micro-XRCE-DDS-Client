@@ -4,7 +4,6 @@
 #include "./input_reliable_stream_internal.h"
 #include "./common_reliable_stream_internal.h"
 #include "../submessage_internal.h"
-#include "../../../profile/multithread/multithread_internal.h"
 
 #include <string.h>
 
@@ -23,8 +22,6 @@ void uxr_init_input_reliable_stream(uxrInputReliableStream* stream, uint8_t* buf
     stream->base.history = history;
     stream->on_get_fragmentation_info = on_get_fragmentation_info;
     stream->cleanup_flag = false;
-
-    UXR_INIT_LOCK(&stream->mutex);
 
     uxr_reset_input_reliable_stream(stream);
 }

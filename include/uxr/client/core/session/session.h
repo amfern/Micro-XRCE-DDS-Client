@@ -20,14 +20,9 @@ extern "C"
 {
 #endif
 
-#include <uxr/client/config.h>
 #include <uxr/client/core/session/session_info.h>
 #include <uxr/client/core/session/stream/stream_storage.h>
 #include <uxr/client/core/type/xrce_types.h>
-
-#ifdef UCLIENT_PROFILE_MULTITHREAD
-#include <uxr/client/profile/multithread/multithread.h>
-#endif
 
 #define UXR_TIMEOUT_INF       -1
 
@@ -111,10 +106,6 @@ typedef struct uxrSession
     void* on_reply_args;
 
     bool on_data_flag;
-
-#ifdef UCLIENT_PROFILE_MULTITHREAD
-    uxrMutex mutex;
-#endif
 
 #ifdef PERFORMANCE_TESTING
     uxrOnPerformanceFunc on_performance;
@@ -445,12 +436,6 @@ UXRDLLAPI int64_t uxr_epoch_millis(uxrSession* session);
  * @return The epoch time in nanoseconds.
  */
 UXRDLLAPI int64_t uxr_epoch_nanos(uxrSession* session);
-
-/**
- * @brief Unlocks a session that has been previously locked by a uxr_prepare* function
- * @param session   A uxrSession structure previosly initialized.
- */
-UXRDLLAPI void uxr_unlock_session(uxrSession* session);
 
 #ifdef PERFORMANCE_TESTING
 UXRDLLAPI bool uxr_buffer_performance(uxrSession* session,

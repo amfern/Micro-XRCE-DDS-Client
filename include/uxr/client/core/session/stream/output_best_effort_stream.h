@@ -20,12 +20,7 @@ extern "C"
 {
 #endif
 
-#include <uxr/client/config.h>
 #include <uxr/client/core/session/stream/seq_num.h>
-
-#ifdef UCLIENT_PROFILE_MULTITHREAD
-#include <uxr/client/profile/multithread/multithread.h>
-#endif
 
 #include <stddef.h>
 #include <stdbool.h>
@@ -33,10 +28,6 @@ extern "C"
 struct ucdrBuffer;
 typedef struct uxrOutputBestEffortStream
 {
-#ifdef UCLIENT_PROFILE_MULTITHREAD
-    uxrMutex mutex;
-#endif
-
     uint8_t* buffer;
     size_t writer;
     size_t size;

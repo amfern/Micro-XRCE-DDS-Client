@@ -1,6 +1,5 @@
 #include "input_best_effort_stream_internal.h"
 #include "seq_num_internal.h"
-#include "../../../profile/multithread/multithread_internal.h"
 
 //==================================================================
 //                             PUBLIC
@@ -8,8 +7,6 @@
 void uxr_init_input_best_effort_stream(uxrInputBestEffortStream* stream)
 {
     stream->last_handled = SEQ_NUM_MAX;
-
-    UXR_INIT_LOCK(&stream->mutex);
 }
 
 void uxr_reset_input_best_effort_stream(uxrInputBestEffortStream* stream)

@@ -9,8 +9,6 @@
 #include "./stream/stream_storage_internal.h"
 #include "./stream/seq_num_internal.h"
 
-#include "../../profile/multithread/multithread_internal.h"
-
 #define WRITE_DATA_PAYLOAD_SIZE 4
 #define SAMPLE_IDENTITY_SIZE    24
 
@@ -24,8 +22,6 @@ uint16_t uxr_buffer_request(
     uint8_t* buffer,
     size_t len)
 {
-    
-
     uint16_t rv = UXR_INVALID_REQUEST_ID;
     ucdrBuffer ub;
     size_t payload_size = WRITE_DATA_PAYLOAD_SIZE + len;
@@ -39,7 +35,6 @@ uint16_t uxr_buffer_request(
         ucdr_serialize_array_uint8_t(&ub, buffer, len);
     }
 
-    
     return rv;
 }
 
@@ -51,8 +46,6 @@ uint16_t uxr_buffer_reply(
     uint8_t* buffer,
     size_t len)
 {
-    
-
     uint16_t rv = UXR_INVALID_REQUEST_ID;
     ucdrBuffer ub;
     size_t payload_size = WRITE_DATA_PAYLOAD_SIZE + SAMPLE_IDENTITY_SIZE + len;
@@ -67,7 +60,6 @@ uint16_t uxr_buffer_reply(
         ucdr_serialize_array_uint8_t(&ub, buffer, len);
     }
 
-    
     return rv;
 }
 
@@ -78,13 +70,9 @@ uint16_t uxr_buffer_topic(
     uint8_t* buffer,
     size_t len)
 {
-    
     uint16_t rv = UXR_INVALID_REQUEST_ID;
-
     ucdrBuffer ub;
     size_t payload_size = WRITE_DATA_PAYLOAD_SIZE + len;
-
-    UXR_LOCK_STREAM_ID(session, stream_id);
 
     ub.error = !uxr_prepare_stream_to_write_submessage(session, stream_id, payload_size, &ub, SUBMESSAGE_ID_WRITE_DATA, FORMAT_DATA);
     if (!ub.error)
@@ -95,16 +83,12 @@ uint16_t uxr_buffer_topic(
         ucdr_serialize_array_uint8_t(&ub, buffer, len);
     }
 
-    UXR_UNLOCK_STREAM_ID(session, stream_id);
-
     return rv;
 }
 
 uint16_t uxr_prepare_output_stream(uxrSession* session, uxrStreamId stream_id, uxrObjectId entity_id,
                                ucdrBuffer* ub, uint32_t data_size)
 {
-    
-
     uint16_t rv = UXR_INVALID_REQUEST_ID;
 
     size_t payload_size = WRITE_DATA_PAYLOAD_SIZE + data_size;
@@ -119,12 +103,11 @@ uint16_t uxr_prepare_output_stream(uxrSession* session, uxrStreamId stream_id, u
         void* args = ub->args;
         ucdr_init_buffer(ub, ub->iterator, (size_t)(ub->final - ub->iterator));
         ucdr_set_on_full_buffer_callback(ub, on_full_buffer, args);
-    }else{
-        
     }
 
     return rv;
 }
+
 
 // Continuous fragment mode
 
@@ -151,7 +134,6 @@ bool on_full_output_buffer_fragmented(ucdrBuffer* ub, void* args)
         if(!local_args->flush_callback(session) ||
            0 == (remaining_blocks = get_available_free_slots(stream)))
         {
-            
             return true;
         }
     }
@@ -189,16 +171,14 @@ uint16_t uxr_prepare_output_stream_fragmented(
     size_t data_size,
     uxrOnBuffersFull flush_callback)
 {
-    
-
     uint16_t rv = UXR_INVALID_REQUEST_ID;
+
     size_t user_required_space = data_size + SUBHEADER_SIZE + WRITE_DATA_PAYLOAD_SIZE;
 
     uxrOutputReliableStream* stream = uxr_get_output_reliable_stream(&session->streams, stream_id.index);
 
     if (stream == NULL)
     {
-        
         return rv;
     }
 
@@ -209,7 +189,6 @@ uint16_t uxr_prepare_output_stream_fragmented(
         if(!flush_callback(session) ||
            0 == (remaining_blocks = get_available_free_slots(stream)))
         {
-            
             return rv;
         }
     }

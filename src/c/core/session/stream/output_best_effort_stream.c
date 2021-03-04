@@ -2,7 +2,6 @@
 
 #include "../submessage_internal.h"
 #include "seq_num_internal.h"
-#include "../../../profile/multithread/multithread_internal.h"
 
 #include <ucdr/microcdr.h>
 
@@ -14,8 +13,6 @@ void uxr_init_output_best_effort_stream(uxrOutputBestEffortStream* stream, uint8
     stream->buffer = buffer;
     stream->offset = offset;
     stream->size = size;
-
-    UXR_INIT_LOCK(&stream->mutex);
 
     uxr_reset_output_best_effort_stream(stream);
 }
