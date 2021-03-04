@@ -241,6 +241,8 @@ bool uxr_run_session_until_timeout(uxrSession* session, int timeout_ms)
 
 bool uxr_run_session_until_confirm_delivery(uxrSession* session, int timeout_ms)
 {
+    UXR_LOCK_SESSION(session);
+
     uxr_flash_output_streams(session);
 
     bool timeout = false;
@@ -249,11 +251,16 @@ bool uxr_run_session_until_confirm_delivery(uxrSession* session, int timeout_ms)
         timeout = !listen_message_reliably(session, timeout_ms);
     }
 
-    return uxr_output_streams_confirmed(&session->streams);
+    bool ret = uxr_output_streams_confirmed(&session->streams);
+
+    UXR_UNLOCK_SESSION(session);
+    return ret;
 }
 
 bool uxr_run_session_until_all_status(uxrSession* session, int timeout_ms, const uint16_t* request_list, uint8_t* status_list, size_t list_size)
 {
+    UXR_LOCK_SESSION(session);
+
     uxr_flash_output_streams(session);
 
     for(unsigned i = 0; i < list_size; ++i)
@@ -261,7 +268,6 @@ bool uxr_run_session_until_all_status(uxrSession* session, int timeout_ms, const
         status_list[i] = UXR_STATUS_NONE;
     }
 
-    UXR_LOCK_SESSION(session);
 
     session->request_list = request_list;
     session->status_list = status_list;
@@ -725,6 +731,8 @@ void read_submessage_acknack(uxrSession* session, ucdrBuffer* submessage)
     uxrOutputReliableStream* stream = uxr_get_output_reliable_stream(&session->streams, id.index);
     if(stream)
     {
+        UXR_LOCK_STREAM_ID(session, id);
+
         uint16_t nack_bitmap = (uint16_t)(((uint16_t)acknack.nack_bitmap[0] << 8) + acknack.nack_bitmap[1]);
         uxr_process_acknack(stream, nack_bitmap, acknack.first_unacked_seq_num);
 
@@ -734,6 +742,8 @@ void read_submessage_acknack(uxrSession* session, ucdrBuffer* submessage)
         {
             send_message(session, buffer, length);
         }
+
+        UXR_UNLOCK_STREAM_ID(session, id);
     }
 }
 

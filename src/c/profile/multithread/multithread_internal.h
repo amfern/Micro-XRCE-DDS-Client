@@ -36,8 +36,8 @@ extern "C"
 // #endif
 
 #define UXR_INIT_LOCK(X) uxr_init_lock(X)
-// #define UXR_LOCK(X) uxr_lock(X)
-// #define UXR_UNLOCK(X) uxr_unlock(X)
+#define UXR_LOCK(X) uxr_lock(X)
+#define UXR_UNLOCK(X) uxr_unlock(X)
 
 #define UXR_LOCK_STREAM_ID(session, stream_id) uxr_lock(uxr_get_stream_mutex_from_id(session, stream_id))
 #define UXR_UNLOCK_STREAM_ID(session, stream_id) uxr_unlock(uxr_get_stream_mutex_from_id(session, stream_id))
