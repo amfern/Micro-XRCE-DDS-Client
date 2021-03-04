@@ -20,8 +20,13 @@ extern "C"
 {
 #endif
 
+#include <uxr/client/config.h>
 #include <uxr/client/core/session/stream/reliable_stream.h>
 #include <uxr/client/core/session/stream/seq_num.h>
+
+#ifdef UCLIENT_PROFILE_MULTITHREAD
+#include <uxr/client/profile/multithread/multithread.h>
+#endif
 
 #include <stdbool.h>
 
@@ -47,6 +52,10 @@ typedef struct uxrInputReliableStream
     OnGetFragmentationInfo on_get_fragmentation_info;
 
     bool cleanup_flag;
+
+#ifdef UCLIENT_PROFILE_MULTITHREAD
+    uxrMutex mutex;
+#endif
 
 } uxrInputReliableStream;
 

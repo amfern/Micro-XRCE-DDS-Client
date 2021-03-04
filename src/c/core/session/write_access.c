@@ -74,6 +74,8 @@ uint16_t uxr_buffer_topic(
     ucdrBuffer ub;
     size_t payload_size = WRITE_DATA_PAYLOAD_SIZE + len;
 
+    UXR_LOCK_STREAM_ID(session, stream_id);
+
     ub.error = !uxr_prepare_stream_to_write_submessage(session, stream_id, payload_size, &ub, SUBMESSAGE_ID_WRITE_DATA, FORMAT_DATA);
     if (!ub.error)
     {
@@ -82,6 +84,8 @@ uint16_t uxr_buffer_topic(
         uxr_serialize_WRITE_DATA_Payload_Data(&ub, &payload);
         ucdr_serialize_array_uint8_t(&ub, buffer, len);
     }
+
+    UXR_UNLOCK_STREAM_ID(session, stream_id);
 
     return rv;
 }

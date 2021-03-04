@@ -20,8 +20,13 @@ extern "C"
 {
 #endif
 
+#include <uxr/client/config.h>
 #include <uxr/client/core/session/stream/reliable_stream.h>
 #include <uxr/client/core/session/stream/seq_num.h>
+
+#ifdef UCLIENT_PROFILE_MULTITHREAD
+#include <uxr/client/profile/multithread/multithread.h>
+#endif
 
 #include <stdbool.h>
 
@@ -42,6 +47,10 @@ typedef struct uxrOutputReliableStream
     int64_t next_heartbeat_timestamp;
     uint8_t next_heartbeat_tries;
     bool send_lost;
+
+#ifdef UCLIENT_PROFILE_MULTITHREAD
+    uxrMutex mutex;
+#endif
 
 } uxrOutputReliableStream;
 
