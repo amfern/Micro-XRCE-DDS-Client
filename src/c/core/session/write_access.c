@@ -8,6 +8,7 @@
 #include "./stream/common_reliable_stream_internal.h"
 #include "./stream/stream_storage_internal.h"
 #include "./stream/seq_num_internal.h"
+#include "../../profile/multithread/multithread_internal.h"
 
 #define WRITE_DATA_PAYLOAD_SIZE 4
 #define SAMPLE_IDENTITY_SIZE    24

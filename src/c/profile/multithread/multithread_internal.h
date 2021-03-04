@@ -25,28 +25,6 @@ extern "C"
 #include <uxr/client/visibility.h>
 #include <uxr/client/core/session/session.h>
 
-#include <uxr/client/config.h>
-
-#ifdef WIN32
-#elif defined(PLATFORM_NAME_FREERTOS)
-#include <semphr. h>
-#elif defined(UCLIENT_PLATFORM_ZEPHYR)
-#elif defined(UCLIENT_PLATFORM_POSIX)
-#include <pthread.h>
-#endif    
-
-typedef struct uxrMutex{
-#ifdef WIN32
-#elif defined(PLATFORM_NAME_FREERTOS)
-    SemaphoreHandle_t impl;
-    StaticSemaphore_t xMutexBuffer;
-#elif defined(UCLIENT_PLATFORM_ZEPHYR)
-    struct k_mutex impl;
-#elif defined(UCLIENT_PLATFORM_POSIX)
-    pthread_mutex_t impl;
-#endif    
-} uxrMutex;
-
 // #ifdef UCLIENT_PROFILE_MULTITHREAD
 // #define UXR_INIT_LOCK_SESSION uxr_init_session_lock(session)
 // #define UXR_LOCK_SESSION uxr_lock_session(session)

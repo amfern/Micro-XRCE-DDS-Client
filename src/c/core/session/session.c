@@ -16,6 +16,7 @@
 #include "stream/seq_num_internal.h"
 #include "../log/log_internal.h"
 #include "../../util/time_internal.h"
+#include "../../profile/multithread/multithread_internal.h"
 
 #define CREATE_SESSION_MAX_MSG_SIZE (MAX_HEADER_SIZE + SUBHEADER_SIZE + CREATE_CLIENT_PAYLOAD_SIZE)
 #define DELETE_SESSION_MAX_MSG_SIZE (MAX_HEADER_SIZE + SUBHEADER_SIZE + DELETE_CLIENT_PAYLOAD_SIZE)
@@ -63,7 +64,7 @@ static bool run_session_until_sync(uxrSession* session, int timeout);
 
 void uxr_init_session(uxrSession* session, uxrCommunication* comm, uint32_t key)
 {
-    UXR_INIT_LOCK_SESSION;
+    UXR_INIT_LOCK(&session->mutex);
 
     session->comm = comm;
 

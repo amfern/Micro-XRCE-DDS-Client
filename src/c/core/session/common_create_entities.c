@@ -4,6 +4,7 @@
 #include "session_internal.h"
 #include "session_info_internal.h"
 #include "submessage_internal.h"
+#include "../../profile/multithread/multithread_internal.h"
 
 //==================================================================
 //                              PUBLIC
