@@ -1,4 +1,4 @@
-// Copyright 2021 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2021-present Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -235,8 +235,8 @@ int main(int args, char** argv)
     }
 
     // Delete resources
-    // uxr_delete_session(&session);
-    // uxr_close_udp_transport(&transport);
+    uxr_delete_session(&session);
+    uxr_close_udp_transport(&transport);
 
     return 0;
 }
