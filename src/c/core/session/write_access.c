@@ -104,9 +104,7 @@ uint16_t uxr_prepare_output_stream(uxrSession* session, uxrStreamId stream_id, u
 {
     uint16_t rv = UXR_INVALID_REQUEST_ID;
 
-    #ifdef UCLIENT_PROFILE_MULTITHREAD
-        return rv;
-    #endif
+    UXR_LOCK_STREAM_ID(session, stream_id);
 
     size_t payload_size = WRITE_DATA_PAYLOAD_SIZE + data_size;
     ub->error = !uxr_prepare_stream_to_write_submessage(session, stream_id, payload_size, ub, SUBMESSAGE_ID_WRITE_DATA, FORMAT_DATA);
