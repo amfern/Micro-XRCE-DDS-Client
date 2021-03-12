@@ -42,6 +42,16 @@ typedef struct uxrMutex{
 #endif    
 } uxrMutex;
 
+#ifdef UCLIENT_PROFILE_MULTITHREAD
+
+#define UXR_UNLOCK_STREAM_ID(session, stream_id) uxr_unlock(uxr_get_stream_mutex_from_id(session, stream_id))
+
+#else // UCLIENT_PROFILE_MULTITHREAD
+
+#define UXR_UNLOCK_STREAM_ID(session, stream_id)
+
+#endif // UCLIENT_PROFILE_MULTITHREAD
+
 #ifdef __cplusplus
 }
 #endif

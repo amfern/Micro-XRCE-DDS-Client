@@ -36,7 +36,6 @@ extern "C"
 #define UXR_UNLOCK_SESSION(session) uxr_unlock(&session->mutex)
 
 #define UXR_LOCK_STREAM_ID(session, stream_id) uxr_lock(uxr_get_stream_mutex_from_id(session, stream_id))
-#define UXR_UNLOCK_STREAM_ID(session, stream_id) uxr_unlock(uxr_get_stream_mutex_from_id(session, stream_id))
 
 #define UXR_LOCK_ALL_INPUT_STREAMS(session) \
     for(uint8_t i = 0; i < session->streams.input_best_effort_size; ++i){ uxr_lock(&session->streams.input_best_effort[i].mutex); } \
@@ -57,7 +56,6 @@ extern "C"
 #define UXR_UNLOCK_SESSION(session)
 
 #define UXR_LOCK_STREAM_ID(session, stream_id)
-#define UXR_UNLOCK_STREAM_ID(session, stream_id)
 
 #define UXR_LOCK_ALL_INPUT_STREAMS(session)
 #define UXR_UNLOCK_ALL_INPUT_STREAMS(session) 
