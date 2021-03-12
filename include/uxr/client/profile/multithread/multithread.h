@@ -21,6 +21,10 @@ extern "C"
 #endif
 
 #include <uxr/client/config.h>
+#include <uxr/client/visibility.h>
+#include <uxr/client/core/session/stream/stream_id.h>
+
+struct uxrSession;
 
 #ifdef WIN32
 #elif defined(PLATFORM_NAME_FREERTOS)
@@ -41,6 +45,19 @@ typedef struct uxrMutex{
     pthread_mutex_t impl;
 #endif    
 } uxrMutex;
+
+/**
+ * @brief
+ * TODO
+ */
+UXRDLLAPI void uxr_unlock(uxrMutex* mutex);
+
+
+/**
+ * @brief
+ * TODO
+ */
+UXRDLLAPI uxrMutex * uxr_get_stream_mutex_from_id(struct uxrSession* session, uxrStreamId stream_id);
 
 #ifdef UCLIENT_PROFILE_MULTITHREAD
 

@@ -388,6 +388,8 @@ bool uxr_buffer_performance(uxrSession *session,
 
 void uxr_flash_output_streams(uxrSession* session)
 {
+    UXR_HANDLE_INTERPROCESS();
+    
     for(uint8_t i = 0; i < session->streams.output_best_effort_size; ++i)
     {
         uxrOutputBestEffortStream* stream = &session->streams.output_best_effort[i];

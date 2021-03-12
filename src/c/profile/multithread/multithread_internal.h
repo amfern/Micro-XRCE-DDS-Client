@@ -24,6 +24,7 @@ extern "C"
 
 #include <uxr/client/visibility.h>
 #include <uxr/client/core/session/session.h>
+#include <uxr/client/profile/multithread/multithread.h>
 
 #ifdef UCLIENT_PROFILE_MULTITHREAD
 
@@ -73,19 +74,6 @@ UXRDLLAPI void uxr_init_lock(uxrMutex* mutex);
  * TODO
  */
 UXRDLLAPI void uxr_lock(uxrMutex* mutex);
-
-/**
- * @brief
- * TODO
- */
-UXRDLLAPI void uxr_unlock(uxrMutex* mutex);
-
-
-/**
- * @brief
- * TODO
- */
-UXRDLLAPI uxrMutex * uxr_get_stream_mutex_from_id(uxrSession* session, uxrStreamId stream_id);
 
 
 #ifdef __cplusplus

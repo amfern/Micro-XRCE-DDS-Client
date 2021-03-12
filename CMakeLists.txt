@@ -47,6 +47,7 @@ option(UCLIENT_PROFILE_UDP "Enable UDP transport." ON)
 option(UCLIENT_PROFILE_TCP "Enable TCP transport." ON)
 option(UCLIENT_PROFILE_SERIAL "Enable Serial transport." ON)
 option(UCLIENT_PROFILE_MULTITHREAD "Enable multithread support." ON)
+option(UCLIENT_PROFILE_INTERPROCESS "Enable interprocess support." ON)
 option(UCLIENT_PROFILE_STREAM_FRAMING "Enable stream framing protocol." ON)
 set(UCLIENT_MAX_OUTPUT_BEST_EFFORT_STREAMS 1 CACHE STRING "Set the maximum number of output best-effort streams for session.")
 set(UCLIENT_MAX_OUTPUT_RELIABLE_STREAMS 1 CACHE STRING "Set the maximum number of output reliable streams for session.")
@@ -204,6 +205,10 @@ if(UCLIENT_PROFILE_CUSTOM_TRANSPORT)
     list(APPEND _transport_src src/c/profile/transport/custom/custom_transport.c)
 endif()
 
+if(UCLIENT_PROFILE_MULTITHREAD)
+    set(UCLIENT_PROFILE_INTERPROCESS ON)
+endif()
+
 # Other sources
 set(SRCS
     src/c/core/session/stream/input_best_effort_stream.c
@@ -228,6 +233,7 @@ set(SRCS
     src/c/core/session/read_access.c
     src/c/core/session/write_access.c
     $<$<BOOL:${UCLIENT_PROFILE_MULTITHREAD}>:src/c/profile/multithread/multithread.c>
+    $<$<BOOL:${UCLIENT_PROFILE_INTERPROCESS}>:src/c/profile/multithread/interprocess.c>
     $<$<BOOL:${UCLIENT_PROFILE_STREAM_FRAMING}>:src/c/profile/transport/stream_framing/stream_framing_protocol.c>
     $<$<OR:$<BOOL:${UCLIENT_VERBOSE_MESSAGE}>,$<BOOL:${UCLIENT_VERBOSE_SERIALIZATION}>>:src/c/core/log/log.c>
     ${_transport_src}

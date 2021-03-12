@@ -42,7 +42,10 @@ void uxr_buffer_create_session(uxrSessionInfo* info, ucdrBuffer* ub, uint16_t mt
     payload.client_representation.client_key.data[2] = info->key[2];
     payload.client_representation.client_key.data[3] = info->key[3];
     payload.client_representation.session_id = info->id;
-    payload.client_representation.optional_properties = false;
+    payload.client_representation.optional_properties = true;
+    payload.client_representation.properties.size = 1;
+    payload.client_representation.properties.data[0].name = "uxrInterprocess";
+    payload.client_representation.properties.data[0].value = "1";
     payload.client_representation.mtu = mtu;
 
     info->last_request_id = UXR_REQUEST_LOGIN;

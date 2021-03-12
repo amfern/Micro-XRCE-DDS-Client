@@ -65,6 +65,8 @@ uint16_t uxr_buffer_create_datawriter_xml(uxrSession* session, uxrStreamId strea
 {
     //assert with the object_id type
 
+     UXR_ADD_INTERPROCESS_DATAWRITER(session, object_id, xml);
+
     CREATE_Payload payload;
     payload.object_representation.kind = DDS_XRCE_OBJK_DATAWRITER;
     uxr_object_id_to_raw(publisher_id, payload.object_representation._.data_writer.publisher_id.data);
@@ -76,6 +78,8 @@ uint16_t uxr_buffer_create_datareader_xml(uxrSession* session, uxrStreamId strea
                                         uxrObjectId object_id, uxrObjectId subscriber_id, const char* xml, uint8_t mode)
 {
     //assert with the object_id type
+
+    UXR_ADD_INTERPROCESS_DATAREADER(session, object_id, xml);
 
     CREATE_Payload payload;
     payload.object_representation.kind = DDS_XRCE_OBJK_DATAREADER;

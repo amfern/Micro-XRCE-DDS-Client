@@ -118,6 +118,8 @@ uint16_t uxr_prepare_output_stream(uxrSession* session, uxrStreamId stream_id, u
         void* args = ub->args;
         ucdr_init_buffer(ub, ub->iterator, (size_t)(ub->final - ub->iterator));
         ucdr_set_on_full_buffer_callback(ub, on_full_buffer, args);
+
+        UXR_PREPARE_INTERPROCESS(session, entity_id, ub, data_size);
     }
 
     return rv;
